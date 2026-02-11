@@ -51,6 +51,16 @@ app.post('/login', async (req,res)=>{
     res.json({msg:"Invalid"});
 });
 
+// ===== Load old messages =====
+app.get('/old/:room', async (req,res)=>{
+
+ const data = await GroupMessage.find({
+   room:req.params.room
+ });
+
+ res.json(data);
+});
+
 
 // ===== SOCKET =====
 io.on('connection', (socket)=>{
@@ -63,6 +73,15 @@ io.on('connection', (socket)=>{
       message: username+" joined "+room
     });
   });
+
+  socket.on('leaveRoom',({username,room})=>{
+    socket.leave(room);
+
+    io.to(room).emit('message',{
+        from_user:"system",
+        message: username+" left room"
+    });
+});
 
 
   socket.on('chatMessage', async (data)=>{
@@ -83,6 +102,8 @@ io.on('connection', (socket)=>{
   });
 
 });
+
+
 
 
 server.listen(process.env.PORT);

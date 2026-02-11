@@ -1,6 +1,19 @@
-<h2>Chat</h2>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Chat App</title>
 
-<select id="room">
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+
+<link rel="stylesheet" href="/public/css/style.css">
+</head>
+
+<body class="container mt-3">
+
+<h3>Welcome: <span id="user"></span></h3>
+
+<select id="room" class="form-control w-25">
  <option>devops</option>
  <option>cloud computing</option>
  <option>covid19</option>
@@ -8,56 +21,25 @@
  <option>nodeJS</option>
 </select>
 
-<button onclick="join()">Join</button>
-<button onclick="logout()">Logout</button>
+<button class="btn btn-success mt-2" onclick="joinRoom()">Join Room</button>
+<button class="btn btn-danger mt-2" onclick="leaveRoom()">Leave</button>
+<button class="btn btn-dark mt-2" onclick="logout()">Logout</button>
 
-<div id="typing"></div>
-<div id="chat"></div>
+<hr>
 
-<input id="msg">
+<div id="typing" class="text-danger"></div>
 
-<button onclick="send()">Send</button>
+<div id="chat" class="border p-2" style="height:300px;overflow:auto"></div>
+
+<input id="msg" class="form-control mt-2">
+<button class="btn btn-primary mt-2" onclick="sendMessage()">Send</button>
 
 <script src="/socket.io/socket.io.js"></script>
+<script src="/public/js/chat.js"></script>
 
 <script>
-const socket = io();
-
-function join(){
- socket.emit('joinRoom',{
-   username:localStorage.getItem("user"),
-   room:room.value
- });
-}
-
-function send(){
- socket.emit('chatMessage',{
-   from_user:localStorage.getItem("user"),
-   room:room.value,
-   message:msg.value
- });
-
- msg.value="";
-}
-
-msg.onkeypress=()=>{
- socket.emit('typing',{
-   username:localStorage.getItem("user"),
-   room:room.value
- });
-}
-
-socket.on('message', d=>{
- chat.innerHTML += `<p>${d.from_user}: ${d.message}</p>`;
-});
-
-socket.on('typing', u=>{
- typing.innerHTML = u+" is typing...";
- setTimeout(()=>typing.innerHTML="",1000);
-});
-
-function logout(){
- localStorage.clear();
- location="login.html";
-}
+user.innerText = localStorage.getItem("user");
 </script>
+
+</body>
+</html>
