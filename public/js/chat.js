@@ -98,3 +98,26 @@ socket.on('privateMessage', d=>{
    </p>`;
 });
 
+// ===== Load old private messages =====
+async function loadPrivate(){
+
+ const u = localStorage.getItem("user");
+
+ const res = await fetch('/private/' + u);
+ const data = await res.json();
+
+ privateBox.innerHTML="";
+
+ data.forEach(d=>{
+
+   privateBox.innerHTML +=
+   `<p class='text-primary'>
+      <b>${d.from_user} → ${d.to_user}</b>:
+      ${d.message}
+    </p>`;
+ });
+}
+
+// page load hote hi
+loadPrivate();
+
