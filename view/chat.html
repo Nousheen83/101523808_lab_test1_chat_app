@@ -20,6 +20,16 @@ href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
  <option>sports</option>
  <option>nodeJS</option>
 </select>
+<hr>
+<h5>Private Message</h5>
+
+<input id="toUser" class="form-control w-25" placeholder="Send to username">
+
+<input id="pmsg" class="form-control mt-2" placeholder="private message">
+
+<button class="btn btn-warning mt-2" onclick="sendPrivate()">Send Private</button>
+
+<div id="privateBox" class="border p-2 mt-2"></div>
 
 <button class="btn btn-success mt-2" onclick="joinRoom()">Join Room</button>
 <button class="btn btn-danger mt-2" onclick="leaveRoom()">Leave</button>

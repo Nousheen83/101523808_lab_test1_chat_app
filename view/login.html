@@ -1,9 +1,24 @@
-<h2>Login</h2>
+<!DOCTYPE html>
+<html>
+<head>
+<title>Login</title>
 
-<input id="u">
-<input id="p" type="password">
+<link rel="stylesheet"
+href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+</head>
 
-<button onclick="login()">Login</button>
+<body class="container mt-5">
+
+<div class="card p-4 w-50 mx-auto">
+<h3>Login</h3>
+
+<input id="u" class="form-control mt-2" placeholder="Username">
+<input id="p" type="password" class="form-control mt-2" placeholder="Password">
+
+<button class="btn btn-success mt-3" onclick="login()">Login</button>
+
+<a href="signup.html">Create account</a>
+</div>
 
 <script>
 function login(){
@@ -18,8 +33,15 @@ function login(){
  })
  .then(r=>r.json())
  .then(d=>{
-   localStorage.setItem("user", d.username);
-   location="chat.html";
+
+   if(d.username){
+     localStorage.setItem("user", d.username);
+     location="chat.html";
+   }
+   else alert("Invalid login");
  })
 }
 </script>
+
+</body>
+</html>

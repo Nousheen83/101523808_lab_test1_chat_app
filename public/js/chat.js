@@ -77,3 +77,24 @@ async function loadOldMessages(){
  });
 
 }
+
+function sendPrivate(){
+
+ socket.emit('privateMessage',{
+   from_user:username,
+   to_user:toUser.value,
+   message:pmsg.value
+ });
+
+ pmsg.value="";
+}
+
+socket.on('privateMessage', d=>{
+
+ privateBox.innerHTML +=
+  `<p class='text-primary'>
+     <b>${d.from_user} → ${d.to_user}</b>:
+     ${d.message}
+   </p>`;
+});
+
