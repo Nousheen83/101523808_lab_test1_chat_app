@@ -1,0 +1,63 @@
+<h2>Chat</h2>
+
+<select id="room">
+ <option>devops</option>
+ <option>cloud computing</option>
+ <option>covid19</option>
+ <option>sports</option>
+ <option>nodeJS</option>
+</select>
+
+<button onclick="join()">Join</button>
+<button onclick="logout()">Logout</button>
+
+<div id="typing"></div>
+<div id="chat"></div>
+
+<input id="msg">
+
+<button onclick="send()">Send</button>
+
+<script src="/socket.io/socket.io.js"></script>
+
+<script>
+const socket = io();
+
+function join(){
+ socket.emit('joinRoom',{
+   username:localStorage.getItem("user"),
+   room:room.value
+ });
+}
+
+function send(){
+ socket.emit('chatMessage',{
+   from_user:localStorage.getItem("user"),
+   room:room.value,
+   message:msg.value
+ });
+
+ msg.value="";
+}
+
+msg.onkeypress=()=>{
+ socket.emit('typing',{
+   username:localStorage.getItem("user"),
+   room:room.value
+ });
+}
+
+socket.on('message', d=>{
+ chat.innerHTML += `<p>${d.from_user}: ${d.message}</p>`;
+});
+
+socket.on('typing', u=>{
+ typing.innerHTML = u+" is typing...";
+ setTimeout(()=>typing.innerHTML="",1000);
+});
+
+function logout(){
+ localStorage.clear();
+ location="login.html";
+}
+</script>

@@ -1,0 +1,25 @@
+<h2>Login</h2>
+
+<input id="u">
+<input id="p" type="password">
+
+<button onclick="login()">Login</button>
+
+<script>
+function login(){
+
+ fetch('/login',{
+   method:'POST',
+   body: JSON.stringify({
+     username:u.value,
+     password:p.value
+   }),
+   headers:{'Content-Type':'application/json'}
+ })
+ .then(r=>r.json())
+ .then(d=>{
+   localStorage.setItem("user", d.username);
+   location="chat.html";
+ })
+}
+</script>
