@@ -5,6 +5,8 @@ const http = require('http');
 const socketio = require('socket.io');
 const cors = require('cors');
 
+
+
 const User = require('./models/User');
 const GroupMessage = require('./models/GroupMessage');
 
@@ -15,6 +17,8 @@ const io = socketio(server);
 app.use(express.json());
 app.use(cors());
 app.use(express.static('public'));
+
+app.use(express.static(__dirname));
 
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>console.log("Mongo Atlas Connected"));
